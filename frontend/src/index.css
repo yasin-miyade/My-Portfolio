@@ -1546,19 +1546,53 @@ section {
 
   .admin-layout {
     grid-template-columns: 1fr;
+     gap: 20px;
   }
   
   .admin-sidebar {
     flex-direction: row;
     overflow-x: auto;
-    padding: 12px;
+    padding: 18px;
     white-space: nowrap;
     scrollbar-width: none;
+     gap: 8px;
   }
   
   .admin-sidebar::-webkit-scrollbar {
     display: none;
   }
+
+
+
+
+   .admin-content-box {
+    padding: 20px;
+    min-height: auto;
+  }
+  .admin-modal {
+    width: 95%;
+    padding: 20px;
+    max-height: 90vh;
+  }
+  .admin-stats-overview {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  .admin-stat-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  .admin-stat-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .admin-stat-val {
+    font-size: 1.4rem;
+  }
+
+
+
+   
 
   .footer-container {
     flex-direction: column;
@@ -1585,11 +1619,29 @@ section {
     font-size: 2rem;
   }
   .admin-modal {
-    padding: 20px;
+    padding: 16px;
+    width: 95%;
   }
   .contact-card-box {
     padding: 24px;
   }
+
+
+
+    .admin-content-box {
+    padding: 16px 12px;
+  }
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .admin-header .btn {
+    width: 100%;
+  }
+
+
+   
 }
 
 /* WYSIWYG Rich Text Editor Placeholder styling */

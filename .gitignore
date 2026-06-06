@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Production build outputs
+dist/
+frontend/dist/
+backend/dist/
+
+# Local Environment Variables and Secrets
+.env
+.env.local
+.env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# Database temporary locks/backups
+backend/data/*.tmp
+backend/data/*.backup
+
+# Optional: Uncomment the line below if you DO NOT want to commit your database content (db.json) to Git.
+# If ignored, the backend will auto-initialize with default dummy data on Render/Railway.
+# backend/data/db.json
+
+# Local user uploaded media files (stored on persistent disks)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS metadata files
+.DS_Store
+Thumbs.db
+desktop.ini

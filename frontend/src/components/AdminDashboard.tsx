@@ -6,7 +6,7 @@ import {
 import RichTextEditor from './RichTextEditor.tsx';
 import { getAssetUrl } from '../utils/url.ts';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://my-portfolio-7zd9.onrender.com';
 
 // Local fetch wrapper that shadows global fetch to prefix API endpoints
 const fetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
@@ -631,9 +631,9 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
             </button>
           </form>
 
-          <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          {/* <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
             Default Credential: <strong>admin</strong> / <strong>admin123</strong>
-          </div>
+          </div> */}
         </div>
       </div>
     );

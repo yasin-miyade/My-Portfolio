@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Settings as SettingsIcon, FolderGit, Award, GraduationCap, 
-  MessageSquare, BookOpen, Eye, Edit, Trash2, Plus, X, Upload, CheckCircle, Check
+  MessageSquare, BookOpen, Eye, Edit, Trash2, Plus, X, Upload, CheckCircle, Check, Info
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor.tsx';
 import { getAssetUrl } from '../utils/url.ts';
@@ -23,6 +23,22 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ token, onLogin, refetchData }: AdminDashboardProps) {
+  // Toast Notification States
+  interface Toast {
+    id: string;
+    message: string;
+    type: 'success' | 'error' | 'info';
+  }
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    const id = Date.now().toString();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4000);
+  };
+
   // Login States
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -151,11 +167,14 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       const data = await response.json();
       if (response.ok) {
         onLogin(data.token);
+        showToast('Login successful! Welcome to the Admin Console.', 'success');
       } else {
         setLoginError(data.error || 'Invalid credentials.');
+        showToast(data.error || 'Invalid credentials.', 'error');
       }
     } catch (err) {
       setLoginError('Server network connection error.');
+      showToast('Server connection network error.', 'error');
     }
   };
 
@@ -177,11 +196,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (res.ok) {
         const data = await res.json();
         targetFieldSetter(data.url);
+        showToast('File uploaded successfully!', 'success');
       } else {
-        alert('File upload failed. Check format size limits (Max 5MB).');
+        showToast('File upload failed. (Max 5MB).', 'error');
       }
     } catch (err) {
-      alert('Network upload error.');
+      showToast('Network upload error.', 'error');
     }
   };
 
@@ -256,12 +276,13 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setSettingsUsername('');
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Settings and configuration updated successfully!', 'success');
         setTimeout(() => setSaveSuccess(false), 3000);
       } else {
-        alert('Failed to save settings.');
+        showToast('Failed to save settings configurations.', 'error');
       }
     } catch (err) {
-      alert('Error saving settings.');
+      showToast('Error saving settings configurations.', 'error');
     }
   };
 
@@ -285,9 +306,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setShowModal(false);
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast(modalMode === 'add' ? 'Project created successfully!' : 'Project updated successfully!', 'success');
+      } else {
+        showToast('Failed to save project.', 'error');
       }
     } catch (err) {
-      alert('Error saving project.');
+      showToast('Error saving project.', 'error');
     }
   };
 
@@ -303,9 +327,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Project deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete project.', 'error');
       }
     } catch (err) {
-      alert('Error deleting project.');
+      showToast('Error deleting project.', 'error');
     }
   };
 
@@ -329,9 +356,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setShowModal(false);
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast(modalMode === 'add' ? 'Skill added successfully!' : 'Skill updated successfully!', 'success');
+      } else {
+        showToast('Failed to save skill.', 'error');
       }
     } catch (err) {
-      alert('Error saving skill.');
+      showToast('Error saving skill.', 'error');
     }
   };
 
@@ -345,9 +375,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Skill deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete skill.', 'error');
       }
     } catch (err) {
-      alert('Error deleting skill.');
+      showToast('Error deleting skill.', 'error');
     }
   };
 
@@ -371,9 +404,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setShowModal(false);
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast(modalMode === 'add' ? 'Education record added successfully!' : 'Education record updated successfully!', 'success');
+      } else {
+        showToast('Failed to save education record.', 'error');
       }
     } catch (err) {
-      alert('Error saving education record.');
+      showToast('Error saving education record.', 'error');
     }
   };
 
@@ -387,9 +423,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Education record deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete education record.', 'error');
       }
     } catch (err) {
-      alert('Error deleting education record.');
+      showToast('Error deleting education record.', 'error');
     }
   };
 
@@ -413,9 +452,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setShowModal(false);
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast(modalMode === 'add' ? 'Testimonial added successfully!' : 'Testimonial updated successfully!', 'success');
+      } else {
+        showToast('Failed to save testimonial.', 'error');
       }
     } catch (err) {
-      alert('Error saving testimonial.');
+      showToast('Error saving testimonial.', 'error');
     }
   };
 
@@ -429,9 +471,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Testimonial deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete testimonial.', 'error');
       }
     } catch (err) {
-      alert('Error deleting testimonial.');
+      showToast('Error deleting testimonial.', 'error');
     }
   };
 
@@ -455,9 +500,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setShowModal(false);
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast(modalMode === 'add' ? 'Blog post written successfully!' : 'Blog post updated successfully!', 'success');
+      } else {
+        showToast('Failed to save blog post.', 'error');
       }
     } catch (err) {
-      alert('Error saving blog post.');
+      showToast('Error saving blog post.', 'error');
     }
   };
 
@@ -471,9 +519,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Blog post deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete blog post.', 'error');
       }
     } catch (err) {
-      alert('Error deleting blog post.');
+      showToast('Error deleting blog post.', 'error');
     }
   };
 
@@ -488,9 +539,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Message deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete message.', 'error');
       }
     } catch (err) {
-      alert('Error deleting message.');
+      showToast('Error deleting message.', 'error');
     }
   };
 
@@ -503,9 +557,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Message marked as read.', 'success');
+      } else {
+        showToast('Failed to mark message as read.', 'error');
       }
     } catch (err) {
-      alert('Error marking message as read.');
+      showToast('Error marking message as read.', 'error');
     }
   };
 
@@ -529,9 +586,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
         setShowModal(false);
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast(modalMode === 'add' ? 'Custom section created successfully!' : 'Custom section updated successfully!', 'success');
+      } else {
+        showToast('Failed to save custom section.', 'error');
       }
     } catch (err) {
-      alert('Error saving custom section.');
+      showToast('Error saving custom section.', 'error');
     }
   };
 
@@ -545,9 +605,12 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       if (response.ok) {
         refetchData();
         setRefreshTrigger(prev => prev + 1);
+        showToast('Custom section deleted successfully.', 'success');
+      } else {
+        showToast('Failed to delete custom section.', 'error');
       }
     } catch (err) {
-      alert('Error deleting custom section.');
+      showToast('Error deleting custom section.', 'error');
     }
   };
 
@@ -634,6 +697,23 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
           {/* <div style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
             Default Credential: <strong>admin</strong> / <strong>admin123</strong>
           </div> */}
+        </div>
+
+        {/* Toast Container for Login Screen */}
+        <div className="toast-container">
+          {toasts.map((t) => (
+            <div key={t.id} className={`toast-card toast-${t.type} glass`}>
+              <span className="toast-icon">
+                {t.type === 'success' && <CheckCircle size={18} />}
+                {t.type === 'error' && <X size={18} />}
+                {t.type === 'info' && <Info size={18} />}
+              </span>
+              <span className="toast-message">{t.message}</span>
+              <button className="toast-close" onClick={() => setToasts((prev) => prev.filter((toast) => toast.id !== t.id))}>
+                <X size={14} />
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -2063,6 +2143,23 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
           </div>
         </div>
       )}
+
+      {/* Toast Container for Main Dashboard Screen */}
+      <div className="toast-container">
+        {toasts.map((t) => (
+          <div key={t.id} className={`toast-card toast-${t.type} glass`}>
+            <span className="toast-icon">
+              {t.type === 'success' && <CheckCircle size={18} />}
+              {t.type === 'error' && <X size={18} />}
+              {t.type === 'info' && <Info size={18} />}
+            </span>
+            <span className="toast-message">{t.message}</span>
+            <button className="toast-close" onClick={() => setToasts((prev) => prev.filter((toast) => toast.id !== t.id))}>
+              <X size={14} />
+            </button>
+          </div>
+        ))}
+      </div>
 
     </div>
   );

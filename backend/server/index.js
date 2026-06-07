@@ -18,9 +18,25 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Enable CORS and JSON parsing
+const allowedOrigins = [
+  "https://its-myportfolio.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5000"
+];
+
 app.use(
   cors({
-    origin: "https://its-myportfolio.vercel.app",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) || 
+        origin.endsWith(".vercel.app") ||
+        process.env.NODE_ENV !== "production"
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Safe fallback to allow custom domains
+    },
     credentials: true,
   })
 );

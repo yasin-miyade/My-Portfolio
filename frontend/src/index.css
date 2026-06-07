@@ -1200,13 +1200,17 @@ section {
    ADMIN PANEL STYLES
    ========================================================================== */
 .admin-container {
-  padding-top: 100px;
+  padding: 100px 20px 40px 20px;
   min-height: 100vh;
+}
+
+.admin-mobile-nav {
+  display: none;
 }
 
 .admin-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: 40px;
   margin-top: 24px;
 }
@@ -1550,18 +1554,13 @@ section {
   }
   
   .admin-sidebar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 12px;
-    white-space: normal;
-    gap: 8px;
+    display: none !important;
   }
-  
-  .admin-tab-btn {
-    flex: 1 1 auto;
-    padding: 10px 14px;
-    font-size: 0.85rem;
-    justify-content: center;
+
+  .admin-mobile-nav {
+    display: block;
+    width: 100%;
+    margin-bottom: 24px;
   }
 
 

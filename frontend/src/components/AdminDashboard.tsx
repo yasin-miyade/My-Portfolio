@@ -761,6 +761,29 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
       </div>
 
       <div className="admin-layout">
+        {/* Mobile Dropdown Navigation */}
+        <div className="admin-mobile-nav">
+          <label htmlFor="admin-tab-select" className="form-label" style={{ marginBottom: '6px', fontWeight: 600 }}>
+            Dashboard Section
+          </label>
+          <select 
+            id="admin-tab-select"
+            className="input-field" 
+            value={activeTab} 
+            onChange={(e) => setActiveTab(e.target.value as any)}
+            style={{ appearance: 'auto', padding: '12px' }}
+          >
+            <option value="settings">Portfolio Info & Credentials</option>
+            <option value="projects">Projects ({projects.length})</option>
+            <option value="skills">Skills ({skills.length})</option>
+            <option value="education">Education ({education.length})</option>
+            <option value="testimonials">Reviews ({testimonials.length})</option>
+            <option value="blogs">Tech Blog ({blogs.length})</option>
+            <option value="messages">Messages ({messages.length})</option>
+            <option value="custom-sections">Custom Sections ({customSections.length})</option>
+          </select>
+        </div>
+
         {/* Sidebar Navigation */}
         <aside className="admin-sidebar glass">
           <button className={`admin-tab-btn ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}>
@@ -805,7 +828,7 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
               </div>
 
               <form onSubmit={handleSettingsSubmit}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
                   <div className="form-group">
                     <label className="form-label" htmlFor="settingsName">Developer Name</label>
                     <input
@@ -1225,7 +1248,7 @@ export default function AdminDashboard({ token, onLogin, refetchData }: AdminDas
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 700, margin: '40px 0 20px 0', borderTop: '1px solid var(--border)', paddingTop: '24px' }}>
                   Change Console Credentials
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
                   <div className="form-group">
                     <label className="form-label" htmlFor="settingsUser">Change Username</label>
                     <input
